@@ -1,43 +1,93 @@
-# Todo List API
-## Project Description
-The Todo List API is a simple RESTful API designed to manage a list of todo items. It allows users to create, read, update, and delete (CRUD) todo items.
+# Todo API with FastAPI
 
-## Installation Steps
-To install and run the Todo List API, follow these steps:
+A robust and secure RESTful API for managing tasks (Todos), built with [FastAPI](https://fastapi.tiangolo.com/), SQLAlchemy, and SQLite. This application supports user authentication (JWT), allowing users to create, read, update, and delete their own private todo items.
 
-1. **Clone the repository**: Clone the Todo List API repository using Git.
-2. **Install dependencies**: Install the required dependencies using pip: `pip install -r requriements.txt`
-4. **Run the API**: Run the API using `uvicorn main:app --host 0.0.0.0 --port 8000 or uvicorn main:app --reload`
+## 🚀 Features
 
-## Usage Examples
-The Todo List API provides the following endpoints:
+*   **User Authentication**: Secure user registration and login using OAuth2 with Password (and hashing) and Bearer with JWT tokens.
+*   **CRUD Operations**: Full Create, Read, Update, and Delete functionality for Todo items.
+*   **Data Persistence**: Uses SQLAlchemy ORM for database interactions (SQLite by default).
+*   **Validation**: Robust data validation using Pydantic models.
+*   **Documentation**: Automatic interactive API documentation via Swagger UI (`/docs`) and ReDoc (`/redoc`).
 
-* **Create Todo**: `POST /todos/` - Create a new todo item
-	+ Request Body: `{"title": "Todo Title", "description": "Todo Description"}`
-	+ Response: `{"id": 1, "title": "Todo Title", "description": "Todo Description"}`
-* **Get Todos**: `GET /todos/` - Get a list of all todo items
-	+ Response: `[{"id": 1, "title": "Todo Title", "description": "Todo Description"}]`
-* **Update Todo**: `PUT /todos/{todo_id}` - Update a todo item
-	+ Request Body: `{"title": "New Todo Title", "description": "New Todo Description"}`
-	+ Response: `{"id": 1, "title": "New Todo Title", "description": "New Todo Description"}`
-* **Delete Todo**: `DELETE /todos/{todo_id}` - Delete a todo item
-	+ Response: `Todo with ID {todo_id} deleted successfully`
+## 🛠️ Technology Stack
 
-## Features
-The Todo List API provides the following features:
+*   **Framework**: FastAPI
+*   **Language**: Python 3.10+
+*   **Database ORM**: SQLAlchemy
+*   **Authentication**: Python-Jose (JWT), Passlib (Bcrypt)
+*   **Server**: Uvicorn
 
-* **CRUD operations**: Create, read, update, and delete todo items
-* **Validation**: Validation of request bodies using Pydantic
-* **Database**: SQLite database using SQLAlchemy
+## 📂 Project Structure
 
-## Folder Structure
-The Todo List API has the following folder structure:
-```markdown
-todo_list_api/
-|---- database.py
-|---- main.py
-|---- model.py
-|---- validation.py
-|---- todo.db
-|---- README.md
+*   `main.py`: Entry point of the application. Contains API enpoints and dependency injection.
+*   `model.py`: SQLAlchemy database models (`User`, `Todo`).
+*   `validation.py`: Pydantic schemas for request and response validation.
+*   `auth.py`: Authentication logic, password hashing, and token generation.
+*   `database.py`: Database connection and session configuration.
+
+## ⚡ Getting Started
+
+### Prerequisites
+
+*   Python 3.10 or higher
+*   pip (Python package manager)
+
+### Installation
+
+1.  **Clone the repository** (if you haven't already):
+    ```bash
+    git clone <repository-url>
+    cd todo-api
+    ```
+
+2.  **Create a virtual environment** (recommended):
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+    ```
+
+3.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### Running the Application
+
+Start the development server using Uvicorn:
+
+```bash
+uvicorn main:app --reload
+```
+
+The server will start at `http://127.0.0.1:8000`.
+
+## 📖 API Documentation
+
+FastAPI provides automatic interactive documentation. Once the server is running, navigate to:
+
+*   **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)  
+    Test the API endpoints directly from your browser.
+*   **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)  
+    Alternative API documentation.
+
+## 🔑 Key Endpoints
+
+### Authentication
+*   `POST /users/`: Register a new user.
+*   `POST /token`: Login to get an access token.
+
+### Todos (Requires Authentication)
+*   `POST /todos/`: Create a new todo item.
+*   `GET /todos/`: Retrieve all todo items for the logged-in user.
+*   `PUT /todos/{todo_id}`: Update an existing todo.
+*   `DELETE /todos/{todo_id}`: Delete a todo.
+
+## ⚠️ Configuration
+
+The application currently uses a default secret key in `auth.py`. For production use, **you must change this** to a secure, random environment variable.
+
+```python
+# auth.py
+SECRET_KEY = "your-secret-key-keep-it-secret" # Change this!
 ```
